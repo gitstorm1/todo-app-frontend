@@ -1,0 +1,1 @@
+console.log("Hello from script.js! Your Todo app is starting.");
