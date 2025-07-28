@@ -3,17 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>My Todo App</title>
-    <!-- Link to your CSS file -->
+
     <link rel="stylesheet" href="src/css/style.css">
+
+    <script src="src/js/script.js" defer></script>
 </head>
 <body>
     <h1>My Todo List</h1>
-    <div id="app">
-        <!-- Your Todo app content will go here -->
-    </div>
+    
+    <input id="createTodoName" type="text" placeholder="Enter the Todo name">
+    <button id="createTodo">Create Todo</button>
 
-    <!-- Link to your JavaScript file -->
-    <script src="src/js/script.js"></script>
+    <ul id="todoList">
+    </ul>
 </body>
 </html>
