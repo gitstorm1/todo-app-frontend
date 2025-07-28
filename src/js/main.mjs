@@ -9,16 +9,46 @@ const createTodoName = document.getElementById("createTodoName");
 /** @type {HTMLButtonElement} */
 const createTodoButton = document.getElementById("createTodo");
 
+class Todo {
+    #id;
+    #name = "";
+
+    constructor(name) {
+        this.#id = crypto.randomUUID();
+        this.#name = name;
+    }
+
+    get id() {
+        return this.#id;
+    }
+
+    get name() {
+        return this.#name;
+    }
+}
+
 let todosArray = [];
 
 function addNewTodo(todoName) {
-    todosArray.push(todoName);
-    appEvents.emit("todo:new", todoName);
+    const newTodo = new Todo(todoName);
+
+    todosArray.push(newTodo);
+
+    appEvents.emit("todo:new", newTodo);
 }
 
-function removeTodoByName(todoName) {
-    todosArray = todosArray.filter((currentTodoName) => currentTodoName != todoName);
-    appEvents.emit("todo:removed", todoName);
+function removeTodoById(targetTodoId) {
+    let targetTodo;
+    todosArray = todosArray.filter((currentTodo) => {
+        if (currentTodo.id === targetTodoId) {
+            targetTodo = currentTodo;
+            return false;
+        }
+        return true;
+    });
+    if (targetTodo) {
+        appEvents.emit("todo:removed", targetTodo);
+    }
 }
 
 createTodoButton.addEventListener("click", () => {
@@ -36,9 +66,11 @@ createTodoButton.addEventListener("click", () => {
     createTodoName.focus();
 });
 
-appEvents.on("todo:new", (todoName) => {
+appEvents.on("todo:new", (newTodo) => {
     /** @type {HTMLLIElement} */
-    const todo = document.createElement("li");
+    const todoLi = document.createElement("li");
+
+    todoLi.dataset.todoId = newTodo.id;
 
     /** @type {HTMLButtonElement} */
     const completeTodo = document.createElement("button");
@@ -46,16 +78,23 @@ appEvents.on("todo:new", (todoName) => {
     completeTodo.append("Complete");
 
     completeTodo.addEventListener("click", () => {
-        removeTodoByName(todoName);
-        todo.remove(); // Temporary for the time being; need to move it to todo:removed
+        removeTodoById(newTodo.id);
     });
 
-    todo.append(todoName);
-    todo.append(completeTodo);
+    todoLi.append(newTodo.name);
+    todoLi.append(completeTodo);
 
-    todoList.append(todo);
+    todoList.append(todoLi);
 });
 
-appEvents.on("todo:removed", (todoName) => {
+appEvents.on("todo:removed", (removedTodo) => {
+    const todoId = removedTodo.id;
 
+    /** @type {HTMLLIElement} */
+    const todoLi = todoList.querySelector(`li[data-todo-id="${todoId}"]`);
+
+    if (todoLi && todoLi.parentNode) {
+        todoLi.remove();
+        console.log("Removed todo li for", removedTodo.name);
+    }
 });
