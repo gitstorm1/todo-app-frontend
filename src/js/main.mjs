@@ -95,6 +95,5 @@ appEvents.on("todo:removed", (removedTodo) => {
 
     if (todoLi && todoLi.parentNode) {
         todoLi.remove();
-        console.log("Removed todo li for", removedTodo.name);
     }
 });
