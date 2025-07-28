@@ -1,3 +1,5 @@
+import { appEvents } from "./EventEmitter.mjs";
+
 /** @type {HTMLUListElement} */
 const todoList = document.getElementById("todoList");
 
