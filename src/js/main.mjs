@@ -47,11 +47,15 @@ appEvents.on("todo:new", (todoName) => {
 
     completeTodo.addEventListener("click", () => {
         removeTodoByName(todoName);
-        todo.remove();
+        todo.remove(); // Temporary for the time being; need to move it to todo:removed
     });
 
     todo.append(todoName);
     todo.append(completeTodo);
 
     todoList.append(todo);
+});
+
+appEvents.on("todo:removed", (todoName) => {
+
 });
