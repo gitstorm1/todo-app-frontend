@@ -1,11 +1,23 @@
-/** @type {HTMLButtonElement} */
-const createTodo = document.getElementById("createTodo");
-/** @type {HTMLInputElement} */
-const createTodoName = document.getElementById("createTodoName");
 /** @type {HTMLUListElement} */
 const todoList = document.getElementById("todoList");
 
-createTodo.addEventListener("click", () => {
+/** @type {HTMLInputElement} */
+const createTodoName = document.getElementById("createTodoName");
+
+/** @type {HTMLButtonElement} */
+const createTodoButton = document.getElementById("createTodo");
+
+let todosArray = [];
+
+function addNewTodo(todoName) {
+    todosArray.push(todoName);
+}
+
+function removeTodoByName(todoName) {
+    todosArray = todosArray.filter((currentTodoName) => currentTodoName != todoName);
+}
+
+createTodoButton.addEventListener("click", () => {
     const todoName = createTodoName.value;
 
     createTodoName.value = ""
@@ -14,6 +26,8 @@ createTodo.addEventListener("click", () => {
         alert("Todo name cannot be empty!");
         return;
     }
+
+    addNewTodo(todoName);
 
     /** @type {HTMLLIElement} */
     const todo = document.createElement("li");
@@ -24,6 +38,7 @@ createTodo.addEventListener("click", () => {
     completeTodo.append("Complete");
 
     completeTodo.addEventListener("click", () => {
+        removeTodoByName(todoName);
         todo.remove();
     });
 
@@ -33,4 +48,6 @@ createTodo.addEventListener("click", () => {
     todoList.append(todo);
 
     createTodoName.focus();
+
+    console.log(todosArray);
 });
