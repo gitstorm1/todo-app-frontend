@@ -13,24 +13,30 @@ let todosArray = [];
 
 function addNewTodo(todoName) {
     todosArray.push(todoName);
+    appEvents.emit("todo:new", todoName);
 }
 
 function removeTodoByName(todoName) {
     todosArray = todosArray.filter((currentTodoName) => currentTodoName != todoName);
+    appEvents.emit("todo:removed", todoName);
 }
 
 createTodoButton.addEventListener("click", () => {
     const todoName = createTodoName.value;
-
-    createTodoName.value = ""
 
     if (todoName == "") {
         alert("Todo name cannot be empty!");
         return;
     }
 
+    createTodoName.value = ""
+
     addNewTodo(todoName);
 
+    createTodoName.focus();
+});
+
+appEvents.on("todo:new", (todoName) => {
     /** @type {HTMLLIElement} */
     const todo = document.createElement("li");
 
@@ -48,8 +54,4 @@ createTodoButton.addEventListener("click", () => {
     todo.append(completeTodo);
 
     todoList.append(todo);
-
-    createTodoName.focus();
-
-    console.log(todosArray);
 });
