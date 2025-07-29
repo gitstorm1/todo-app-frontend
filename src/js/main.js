@@ -1,4 +1,5 @@
 import { appEvents } from "./utils/EventEmitter.js";
+import { addNewTodo, removeTodoById } from "./todoService.js";
 
 /** @type {HTMLUListElement} */
 const todoList = document.getElementById("todoList");
@@ -9,57 +10,15 @@ const createTodoName = document.getElementById("createTodoName");
 /** @type {HTMLButtonElement} */
 const createTodoButton = document.getElementById("createTodo");
 
-class Todo {
-    #id;
-    #name = "";
-
-    constructor(name) {
-        this.#id = crypto.randomUUID();
-        this.#name = name;
-    }
-
-    get id() {
-        return this.#id;
-    }
-
-    get name() {
-        return this.#name;
-    }
-}
-
-let todosArray = [];
-
-function addNewTodo(todoName) {
-    const newTodo = new Todo(todoName);
-
-    todosArray.push(newTodo);
-
-    appEvents.emit("todo:new", newTodo);
-}
-
-function removeTodoById(targetTodoId) {
-    let targetTodo;
-    todosArray = todosArray.filter((currentTodo) => {
-        if (currentTodo.id === targetTodoId) {
-            targetTodo = currentTodo;
-            return false;
-        }
-        return true;
-    });
-    if (targetTodo) {
-        appEvents.emit("todo:removed", targetTodo);
-    }
-}
-
 createTodoButton.addEventListener("click", () => {
     const todoName = createTodoName.value;
+    
+    createTodoName.value = ""
 
     if (todoName == "") {
         alert("Todo name cannot be empty!");
         return;
     }
-
-    createTodoName.value = ""
 
     addNewTodo(todoName);
 
