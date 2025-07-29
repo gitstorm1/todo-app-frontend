@@ -2,7 +2,7 @@ import { appEvents } from "./utils/EventEmitter.js";
 
 class Todo {
     #id;
-    #name = "";
+    #name;
 
     /**
      * @param {string} name 
