@@ -40,10 +40,19 @@ appEvents.on("todo:new", (newTodo) => {
         removeTodoById(newTodo.id);
     });
 
-    todoLi.append(newTodo.name);
-    todoLi.append(completeTodo);
+    /** @type {HTMLBRElement} */
+    const lineBreak1 = document.createElement("br");
+    /** @type {HTMLBRElement} */
+    const lineBreak2 = document.createElement("br");
 
-    todoList.append(todoLi);
+    todoLi.append(newTodo.name);
+    todoLi.appendChild(completeTodo);
+    todoLi.appendChild(lineBreak1);
+    todoLi.append(`Description: ${newTodo.description || "N/A"}`);
+    todoLi.appendChild(lineBreak2);
+    todoLi.append(`Priority: ${newTodo.priority}`);
+
+    todoList.appendChild(todoLi);
 });
 
 appEvents.on("todo:removed", (removedTodo) => {
