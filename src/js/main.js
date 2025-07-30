@@ -19,7 +19,7 @@ const createTodoButton = document.getElementById("createTodo");
 createTodoButton.addEventListener("click", () => {
     const todoName = createTodoName.value;
     const todoDescription = createTodoDescription.value;
-    const todoPriority = createTodoPriority.value;
+    const todoPriority = Number(createTodoPriority.value);
 
     if (todoName == "") {
         alert("Todo name cannot be empty!");
