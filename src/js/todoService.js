@@ -40,8 +40,12 @@ let todosArray = [];
 /**
  * @param {string} todoName 
  */
-function addNewTodo(todoName) {
-    const newTodo = new Todo(todoName);
+function addNewTodo(todoName, todoDescription, todoPriority) {
+    const newTodo = new Todo(
+        todoName,
+        todoDescription,
+        todoPriority
+    );
 
     todosArray.push(newTodo);
 

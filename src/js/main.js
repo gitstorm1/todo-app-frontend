@@ -7,11 +7,19 @@ const todoList = document.getElementById("todoList");
 /** @type {HTMLInputElement} */
 const createTodoName = document.getElementById("createTodoName");
 
+/** @type {HTMLTextAreaElement} */
+const createTodoDescription = document.getElementById("createTodoDescription");
+
+/** @type {HTMLInputElement} */
+const createTodoPriority = document.getElementById("createTodoPriority");
+
 /** @type {HTMLButtonElement} */
 const createTodoButton = document.getElementById("createTodo");
 
 createTodoButton.addEventListener("click", () => {
     const todoName = createTodoName.value;
+    const todoDescription = createTodoDescription.value;
+    const todoPriority = createTodoPriority.value;
     
     createTodoName.value = ""
 
@@ -20,7 +28,11 @@ createTodoButton.addEventListener("click", () => {
         return;
     }
 
-    addNewTodo(todoName);
+    addNewTodo(
+        todoName,
+        todoDescription,
+        todoPriority
+    );
 
     createTodoName.focus();
 });
