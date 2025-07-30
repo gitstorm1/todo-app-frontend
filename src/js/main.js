@@ -1,5 +1,5 @@
 import { appEvents } from "./utils/EventEmitter.js";
-import { addNewTodo, removeTodoById } from "./todoService.js";
+import { addNewTodo, getTodoById, removeTodoById } from "./todoService.js";
 
 /** @type {HTMLUListElement} */
 const todoList = document.getElementById("todoList");
@@ -36,6 +36,24 @@ createTodoButton.addEventListener("click", () => {
     createTodoName.focus();
 });
 
+todoList.addEventListener("click", (event) => {
+    /** @type {HTMLElement} */
+    const target = event.target;
+
+    if (target.classList.contains("complete-todo-button")) {
+        /** @type {HTMLLIElement} */
+        const todoLi = target.parentElement;
+
+        const todo = getTodoById(todoLi.dataset.todoId);
+
+        if (target.textContent === "Complete") {
+            todo.complete();
+        } else {
+            todo.undoComplete();
+        }
+    }
+});
+
 appEvents.on("todo:new", (newTodo) => {
     /** @type {HTMLLIElement} */
     const todoLi = document.createElement("li");
@@ -46,16 +64,6 @@ appEvents.on("todo:new", (newTodo) => {
     const completeTodo = document.createElement("button");
     completeTodo.classList.add("complete-todo-button");
     completeTodo.append("Complete");
-
-    completeTodo.addEventListener("click", () => {
-        if (completeTodo.textContent !== "Undo-complete") {
-            newTodo.complete();
-            completeTodo.textContent = "Undo-complete";
-        } else {
-            newTodo.undoComplete();
-            completeTodo.textContent = "Complete";
-        }
-    });
 
     /** @type {HTMLBRElement} */
     const lineBreak1 = document.createElement("br");
@@ -76,12 +84,20 @@ appEvents.on("todo:completed", (todo) => {
     /** @type {HTMLLIElement} */
     const todoLi = todoList.querySelector(`li[data-todo-id="${todo.id}"]`);
 
+    /** @type {HTMLButtonElement} */
+    const completeTodo = todoLi.querySelector(".complete-todo-button");
+    completeTodo.textContent = "Undo-complete";
+
     todoLi.classList.add("strikethrough");
 });
 
 appEvents.on("todo:undo-completed", (todo) => {
     /** @type {HTMLLIElement} */
     const todoLi = todoList.querySelector(`li[data-todo-id="${todo.id}"]`);
+
+    /** @type {HTMLButtonElement} */
+    const completeTodo = todoLi.querySelector(".complete-todo-button");
+    completeTodo.textContent = "Complete";
 
     todoLi.classList.remove("strikethrough");
 });
@@ -90,7 +106,5 @@ appEvents.on("todo:removed", (removedTodo) => {
     /** @type {HTMLLIElement} */
     const todoLi = todoList.querySelector(`li[data-todo-id="${removedTodo.id}"]`);
 
-    if (todoLi) {
-        todoLi.remove();
-    }
+    todoLi.remove();
 });

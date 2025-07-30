@@ -71,6 +71,14 @@ function addNewTodo(todoName, todoDescription, todoPriority) {
 }
 
 /**
+ * @param {string} todoId 
+ * @returns {Todo | undefined}
+ */
+function getTodoById(todoId) {
+    return todosArray.find((todo) => todo.id === todoId);
+}
+
+/**
  * @param {string} targetTodoId 
  */
 function removeTodoById(targetTodoId) {
@@ -87,4 +95,4 @@ function removeTodoById(targetTodoId) {
     }
 }
 
-export { addNewTodo, removeTodoById };
+export { addNewTodo, getTodoById, removeTodoById };
