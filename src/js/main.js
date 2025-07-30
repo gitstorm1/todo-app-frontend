@@ -87,12 +87,10 @@ appEvents.on("todo:undo-completed", (todo) => {
 });
 
 appEvents.on("todo:removed", (removedTodo) => {
-    const todoId = removedTodo.id;
-
     /** @type {HTMLLIElement} */
-    const todoLi = todoList.querySelector(`li[data-todo-id="${todoId}"]`);
+    const todoLi = todoList.querySelector(`li[data-todo-id="${removedTodo.id}"]`);
 
-    if (todoLi && todoLi.parentNode) {
+    if (todoLi) {
         todoLi.remove();
     }
 });
