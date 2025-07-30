@@ -11,7 +11,7 @@ class Todo {
     /**
      * @param {string} name 
      */
-    constructor(name, description="", priority=1, isCompleted=false) {
+    constructor(name, description="", priority=0, isCompleted=false) {
         this.#id = crypto.randomUUID();
         this.#name = name;
         this.#completed = isCompleted;
