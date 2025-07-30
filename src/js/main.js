@@ -20,8 +20,6 @@ createTodoButton.addEventListener("click", () => {
     const todoName = createTodoName.value;
     const todoDescription = createTodoDescription.value;
     const todoPriority = createTodoPriority.value;
-    
-    createTodoName.value = ""
 
     if (todoName == "") {
         alert("Todo name cannot be empty!");
@@ -34,6 +32,7 @@ createTodoButton.addEventListener("click", () => {
         todoPriority
     );
 
+    createTodoName.value = ""
     createTodoName.focus();
 });
 
