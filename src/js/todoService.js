@@ -19,12 +19,15 @@ class Todo {
     }
 
     complete() {
+        if (this.#completed) return;
         this.#completed = true;
+        appEvents.emit("todo:completed", this);
     }
 
     undoComplete() {
         if (!this.#completed) return;
         this.#completed = false;
+        appEvents.emit("todo:undo-completed", this);
     }
 
     get id() {

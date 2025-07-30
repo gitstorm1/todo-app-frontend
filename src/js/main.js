@@ -49,7 +49,7 @@ appEvents.on("todo:new", (newTodo) => {
     completeTodo.append("Complete");
 
     completeTodo.addEventListener("click", () => {
-        removeTodoById(newTodo.id);
+        newTodo.complete();
     });
 
     /** @type {HTMLBRElement} */
@@ -65,6 +65,10 @@ appEvents.on("todo:new", (newTodo) => {
     todoLi.append(`Priority: ${newTodo.priority}`);
 
     todoList.appendChild(todoLi);
+});
+
+appEvents.on("todo:completed", (todo) => {
+    console.log(`Todo of name "${todo.name}" has been marked as completed.`);
 });
 
 appEvents.on("todo:removed", (removedTodo) => {
