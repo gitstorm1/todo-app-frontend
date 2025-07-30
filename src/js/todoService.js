@@ -4,12 +4,17 @@ class Todo {
     #id;
     #name;
 
+    #description;
+    #priority;
+
     /**
      * @param {string} name 
      */
-    constructor(name) {
+    constructor(name, description="", priority=1) {
         this.#id = crypto.randomUUID();
         this.#name = name;
+        this.#description = description;
+        this.#priority = priority;
     }
 
     get id() {
@@ -18,6 +23,14 @@ class Todo {
 
     get name() {
         return this.#name;
+    }
+
+    get description() {
+        return this.#description;
+    }
+
+    get priority() {
+        return this.#priority;
     }
 }
 
