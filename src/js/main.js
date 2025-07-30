@@ -49,7 +49,13 @@ appEvents.on("todo:new", (newTodo) => {
     completeTodo.append("Complete");
 
     completeTodo.addEventListener("click", () => {
-        newTodo.complete();
+        if (completeTodo.textContent !== "Undo-complete") {
+            newTodo.complete();
+            completeTodo.textContent = "Undo-complete";
+        } else {
+            newTodo.undoComplete();
+            completeTodo.textContent = "Complete";
+        }
     });
 
     /** @type {HTMLBRElement} */
@@ -68,7 +74,17 @@ appEvents.on("todo:new", (newTodo) => {
 });
 
 appEvents.on("todo:completed", (todo) => {
-    console.log(`Todo of name "${todo.name}" has been marked as completed.`);
+    /** @type {HTMLLIElement} */
+    const todoLi = todoList.querySelector(`li[data-todo-id="${todo.id}"]`);
+
+    todoLi.classList.add("strikethrough");
+});
+
+appEvents.on("todo:undo-completed", (todo) => {
+    /** @type {HTMLLIElement} */
+    const todoLi = todoList.querySelector(`li[data-todo-id="${todo.id}"]`);
+
+    todoLi.classList.remove("strikethrough");
 });
 
 appEvents.on("todo:removed", (removedTodo) => {

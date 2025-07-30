@@ -12,3 +12,7 @@ h1 {
 .complete-todo-button {
     margin-left: 6px;
 }
+
+.strikethrough {
+    text-decoration: line-through;
+}
