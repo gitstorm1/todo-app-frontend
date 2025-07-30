@@ -3,6 +3,7 @@ import { appEvents } from "./utils/EventEmitter.js";
 class Todo {
     #id;
     #name;
+    #completed = false;
 
     #description;
     #priority;
@@ -17,8 +18,21 @@ class Todo {
         this.#priority = priority;
     }
 
+    complete() {
+        this.#completed = true;
+    }
+
+    undoComplete() {
+        if (!this.#completed) return;
+        this.#completed = false;
+    }
+
     get id() {
         return this.#id;
+    }
+
+    get completed() {
+        return this.#completed;
     }
 
     get name() {
