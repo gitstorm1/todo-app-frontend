@@ -25,6 +25,7 @@ function getAllTodosData() {
  */
 function saveTodoToLocalStorage(todoId, todoData) {
     localStorage.setItem(TODO_ID_PREFIX + todoId, todoData);
+    appEvents.emit("todo:saved-to-localstorage", todoId);
 }
 
 /**
@@ -32,4 +33,5 @@ function saveTodoToLocalStorage(todoId, todoData) {
  */
 function deleteTodoFromLocalStorage(todoId) {
     localStorage.removeItem(TODO_ID_PREFIX + todoId);
+    appEvents.emit("todo:deleted-from-localstorage", todoId);
 }
