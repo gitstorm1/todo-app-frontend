@@ -10,7 +10,13 @@ function getTodoData(todoId) {
 }
 
 function getAllTodosData() {
-
+    const todosData = []
+    for (let i = 0; i < localStorage.length; i++) {
+        const key = localStorage.key(i);
+        if (!key.startsWith(TODO_ID_PREFIX)) continue;
+        todosData.push(localStorage.getItem(key));
+    }
+    return todosData;
 }
 
 /**
