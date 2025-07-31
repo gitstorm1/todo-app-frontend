@@ -3,6 +3,17 @@ import { appEvents } from "../utils/EventEmitter.js";
 /** @type {HTMLUListElement} */
 const todoList = document.getElementById("todoList");
 
+function showTodoAsCompleted(todo) {
+    /** @type {HTMLLIElement} */
+    const todoLi = todoList.querySelector(`li[data-todo-id="${todo.id}"]`);
+
+    /** @type {HTMLButtonElement} */
+    const completeTodo = todoLi.querySelector(".complete-todo-button");
+    completeTodo.textContent = "Undo-complete";
+
+    todoLi.classList.add("strikethrough");
+}
+
 appEvents.on("todo:new", (newTodo) => {
     /** @type {HTMLLIElement} */
     const todoLi = document.createElement("li");
@@ -33,17 +44,12 @@ appEvents.on("todo:new", (newTodo) => {
     todoLi.append(`Priority: ${newTodo.priority}`);
 
     todoList.appendChild(todoLi);
+
+    if (newTodo.completed) showTodoAsCompleted(newTodo);
 });
 
 appEvents.on("todo:completed", (todo) => {
-    /** @type {HTMLLIElement} */
-    const todoLi = todoList.querySelector(`li[data-todo-id="${todo.id}"]`);
-
-    /** @type {HTMLButtonElement} */
-    const completeTodo = todoLi.querySelector(".complete-todo-button");
-    completeTodo.textContent = "Undo-complete";
-
-    todoLi.classList.add("strikethrough");
+    showTodoAsCompleted(todo);
 });
 
 appEvents.on("todo:undo-completed", (todo) => {

@@ -1,5 +1,5 @@
 // import { appEvents } from "./utils/EventEmitter.js";
-import { addNewTodo, getTodoById, deleteTodoById } from "./services/todoService.js";
+import { addNewTodo, getTodoById, deleteTodoById, loadSavedTodos } from "./services/todoService.js";
 import "./views/todoView.js";
 
 /** @type {HTMLUListElement} */
@@ -59,3 +59,5 @@ todoList.addEventListener("click", (event) => {
         deleteTodoById(todoLi.dataset.todoId);
     }
 });
+
+loadSavedTodos();

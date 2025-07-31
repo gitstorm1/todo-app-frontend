@@ -50,6 +50,14 @@ class Todo {
         });
     }
 
+    /**
+     * @param {string} idToSet 
+     */
+    setIdDangerous(idToSet) {
+        if (!idToSet.startsWith(TODO_ID_PREFIX)) return;
+        this.#id = idToSet;
+    }
+
     get id() {
         return this.#id;
     }
@@ -79,7 +87,24 @@ let todosArray = [];
  * @returns {Todo}
  */
 function createTodoFromTodoData(todoData) {
+    const data = JSON.parse(todoData);
+    const todo = new Todo(data.name, data.description, data.priority, data.completed);
+    todo.setIdDangerous(data.id);
+    return todo;
+}
 
+function loadSavedTodos() {
+    const todosData = todoStorage.getAllTodosData();
+
+    for (let todoData of todosData) {
+        const todo = createTodoFromTodoData(todoData);
+
+        todosArray.push(todo);
+
+        appEvents.emit("todo:new", todo);
+    }
+
+    appEvents.emit("todo:saved-todos-loaded");
 }
 
 /**
@@ -125,4 +150,4 @@ function deleteTodoById(targetTodoId) {
     }
 }
 
-export { addNewTodo, getTodoById, deleteTodoById };
+export { loadSavedTodos, addNewTodo, getTodoById, deleteTodoById };
