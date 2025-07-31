@@ -31,6 +31,16 @@ class Todo {
         appEvents.emit("todo:undo-completed", this);
     }
 
+    serialize() {
+        return {
+            id: this.#id,
+            name: this.#name,
+            completed: this.#completed,
+            description: this.#description,
+            priority: this.#priority,
+        };
+    }
+
     get id() {
         return this.#id;
     }
