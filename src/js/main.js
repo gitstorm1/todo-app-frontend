@@ -106,5 +106,9 @@ appEvents.on("todo:removed", (removedTodo) => {
     /** @type {HTMLLIElement} */
     const todoLi = todoList.querySelector(`li[data-todo-id="${removedTodo.id}"]`);
 
-    todoLi.remove();
+    if (todoLi) {
+        todoLi.remove();
+    } else {
+        console.warn("todo:removed event occured but the li element is not there");
+    }
 });
