@@ -1,6 +1,8 @@
 import { appEvents } from "../utils/EventEmitter.js";
 import * as todoStorage from "./todoStorage.js";
 
+const TODO_ID_PREFIX = "todo-"
+
 class Todo {
     #id;
     #name;
@@ -13,7 +15,7 @@ class Todo {
      * @param {string} name 
      */
     constructor(name, description="", priority=0, isCompleted=false) {
-        this.#id = crypto.randomUUID();
+        this.#id = TODO_ID_PREFIX + crypto.randomUUID();
         this.#name = name;
         this.#completed = isCompleted;
         this.#description = description;
@@ -71,6 +73,14 @@ class Todo {
 
 /** @type {Todo[]} */
 let todosArray = [];
+
+/**
+ * @param {string} todoData 
+ * @returns {Todo}
+ */
+function createTodoFromTodoData(todoData) {
+
+}
 
 /**
  * @param {string} todoName 

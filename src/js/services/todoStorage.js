@@ -6,7 +6,7 @@ const TODO_ID_PREFIX = "todo-"
  * @param {string} todoId 
  */
 function getTodoData(todoId) {
-    return localStorage.getItem(TODO_ID_PREFIX + todoId);
+    return localStorage.getItem(todoId);
 }
 
 function getAllTodosData() {
@@ -24,7 +24,7 @@ function getAllTodosData() {
  * @param {string} todoData 
  */
 function saveTodoToLocalStorage(todoId, todoData) {
-    localStorage.setItem(TODO_ID_PREFIX + todoId, todoData);
+    localStorage.setItem(todoId, todoData);
     appEvents.emit("todo:saved-to-localstorage", todoId);
 }
 
@@ -32,7 +32,7 @@ function saveTodoToLocalStorage(todoId, todoData) {
  * @param {string} todoId 
  */
 function deleteTodoFromLocalStorage(todoId) {
-    localStorage.removeItem(TODO_ID_PREFIX + todoId);
+    localStorage.removeItem(todoId);
     appEvents.emit("todo:deleted-from-localstorage", todoId);
 }
 
