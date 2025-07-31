@@ -1,4 +1,5 @@
 import { appEvents } from "../utils/EventEmitter.js";
+import * as todoStorage from "./todoStorage.js";
 
 class Todo {
     #id;
@@ -22,12 +23,18 @@ class Todo {
     complete() {
         if (this.#completed) return;
         this.#completed = true;
+
+        todoStorage.saveTodoToLocalStorage(this.#id, this.stringify());
+
         appEvents.emit("todo:completed", this);
     }
 
     undoComplete() {
         if (!this.#completed) return;
         this.#completed = false;
+
+        todoStorage.saveTodoToLocalStorage(this.#id, this.stringify());
+
         appEvents.emit("todo:undo-completed", this);
     }
 
@@ -77,6 +84,8 @@ function addNewTodo(todoName, todoDescription, todoPriority) {
 
     todosArray.push(newTodo);
 
+    todoStorage.saveTodoToLocalStorage(newTodo.id, newTodo.stringify());
+
     appEvents.emit("todo:new", newTodo);
 }
 
@@ -101,6 +110,7 @@ function deleteTodoById(targetTodoId) {
         return true;
     });
     if (targetTodo) {
+        todoStorage.deleteTodoFromLocalStorage(targetTodo.id);
         appEvents.emit("todo:deleted", targetTodo);
     }
 }

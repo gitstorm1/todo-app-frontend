@@ -35,3 +35,5 @@ function deleteTodoFromLocalStorage(todoId) {
     localStorage.removeItem(TODO_ID_PREFIX + todoId);
     appEvents.emit("todo:deleted-from-localstorage", todoId);
 }
+
+export { getTodoData, getAllTodosData, saveTodoToLocalStorage, deleteTodoFromLocalStorage };
