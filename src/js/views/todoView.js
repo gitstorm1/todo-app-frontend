@@ -51,13 +51,13 @@ appEvents.on("todo:undo-completed", (todo) => {
     todoLi.classList.remove("strikethrough");
 });
 
-appEvents.on("todo:removed", (removedTodo) => {
+appEvents.on("todo:deleted", (deletedTodo) => {
     /** @type {HTMLLIElement} */
-    const todoLi = todoList.querySelector(`li[data-todo-id="${removedTodo.id}"]`);
+    const todoLi = todoList.querySelector(`li[data-todo-id="${deletedTodo.id}"]`);
 
     if (todoLi) {
         todoLi.remove();
     } else {
-        console.warn("todo:removed event occured but the li element is not there");
+        console.warn("todo:deleted event occured but the li element is not there");
     }
 });

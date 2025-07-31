@@ -81,7 +81,7 @@ function getTodoById(todoId) {
 /**
  * @param {string} targetTodoId 
  */
-function removeTodoById(targetTodoId) {
+function deleteTodoById(targetTodoId) {
     let targetTodo;
     todosArray = todosArray.filter((currentTodo) => {
         if (currentTodo.id === targetTodoId) {
@@ -91,8 +91,8 @@ function removeTodoById(targetTodoId) {
         return true;
     });
     if (targetTodo) {
-        appEvents.emit("todo:removed", targetTodo);
+        appEvents.emit("todo:deleted", targetTodo);
     }
 }
 
-export { addNewTodo, getTodoById, removeTodoById };
+export { addNewTodo, getTodoById, deleteTodoById };
