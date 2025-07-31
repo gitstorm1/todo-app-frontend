@@ -31,14 +31,14 @@ class Todo {
         appEvents.emit("todo:undo-completed", this);
     }
 
-    serialize() {
-        return {
+    stringify() {
+        return JSON.stringify({
             id: this.#id,
             name: this.#name,
             completed: this.#completed,
             description: this.#description,
             priority: this.#priority,
-        };
+        });
     }
 
     get id() {
