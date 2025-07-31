@@ -9,7 +9,7 @@ h1 {
     color: #0056b3;
 }
 
-.complete-todo-button {
+.complete-todo-button, .delete-todo-button {
     margin-left: 6px;
 }
 

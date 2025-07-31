@@ -14,6 +14,11 @@ appEvents.on("todo:new", (newTodo) => {
     completeTodo.classList.add("complete-todo-button");
     completeTodo.append("Complete");
 
+    /** @type {HTMLButtonElement} */
+    const deleteTodo = document.createElement("button");
+    deleteTodo.classList.add("delete-todo-button");
+    deleteTodo.append("Delete");
+
     /** @type {HTMLBRElement} */
     const lineBreak1 = document.createElement("br");
     /** @type {HTMLBRElement} */
@@ -21,6 +26,7 @@ appEvents.on("todo:new", (newTodo) => {
 
     todoLi.append(newTodo.name);
     todoLi.appendChild(completeTodo);
+    todoLi.appendChild(deleteTodo);
     todoLi.appendChild(lineBreak1);
     todoLi.append(`Description: ${newTodo.description || "N/A"}`);
     todoLi.appendChild(lineBreak2);

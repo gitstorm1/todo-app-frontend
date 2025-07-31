@@ -52,5 +52,10 @@ todoList.addEventListener("click", (event) => {
         } else {
             todo.undoComplete();
         }
+    } else if (target.classList.contains("delete-todo-button")) {
+        /** @type {HTMLLIElement} */
+        const todoLi = target.parentElement;
+
+        deleteTodoById(todoLi.dataset.todoId);
     }
 });
