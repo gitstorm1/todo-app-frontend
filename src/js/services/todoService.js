@@ -1,4 +1,4 @@
-import { appEvents } from "./utils/EventEmitter.js";
+import { appEvents } from "../utils/EventEmitter.js";
 
 class Todo {
     #id;
