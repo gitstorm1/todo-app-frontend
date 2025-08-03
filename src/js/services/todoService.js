@@ -11,6 +11,8 @@ class Todo {
     #description;
     #priority;
 
+    #createdAt;
+
     /**
      * @param {string} name 
      */
@@ -20,6 +22,7 @@ class Todo {
         this.#completed = isCompleted;
         this.#description = description;
         this.#priority = priority;
+        this.#createdAt = Date.now();
     }
 
     complete() {
@@ -47,6 +50,7 @@ class Todo {
             completed: this.#completed,
             description: this.#description,
             priority: this.#priority,
+            createdAt: this.#createdAt,
         });
     }
 
@@ -56,6 +60,14 @@ class Todo {
     setIdDangerous(idToSet) {
         if (!idToSet.startsWith(TODO_ID_PREFIX)) return;
         this.#id = idToSet;
+    }
+
+    /**
+     * 
+     * @param {number} createdAtToSet 
+     */
+    setCreatedAtDangerous(createdAtToSet) {
+        this.#createdAt = createdAtToSet;
     }
 
     get id() {
@@ -77,6 +89,10 @@ class Todo {
     get priority() {
         return this.#priority;
     }
+
+    get createdAt() {
+        return this.#createdAt;
+    }
 }
 
 /** @type {Todo[]} */
@@ -90,6 +106,7 @@ function createTodoFromTodoData(todoData) {
     const data = JSON.parse(todoData);
     const todo = new Todo(data.name, data.description, data.priority, data.completed);
     todo.setIdDangerous(data.id);
+    todo.setCreatedAtDangerous(data.createdAt || Date.now());
     return todo;
 }
 
