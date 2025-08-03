@@ -14,11 +14,11 @@ function showTodoAsCompleted(todo) {
     todoLi.classList.add("strikethrough");
 }
 
-appEvents.on("todo:new", (newTodo) => {
+function createTodoLi(todo) {
     /** @type {HTMLLIElement} */
     const todoLi = document.createElement("li");
 
-    todoLi.dataset.todoId = newTodo.id;
+    todoLi.dataset.todoId = todo.id;
 
     /** @type {HTMLButtonElement} */
     const completeTodo = document.createElement("button");
@@ -34,18 +34,41 @@ appEvents.on("todo:new", (newTodo) => {
     const lineBreak1 = document.createElement("br");
     /** @type {HTMLBRElement} */
     const lineBreak2 = document.createElement("br");
+    /** @type {HTMLBRElement} */
+    const lineBreak3 = document.createElement("br");
 
-    todoLi.append(newTodo.name);
+    todoLi.append(todo.name);
     todoLi.appendChild(completeTodo);
     todoLi.appendChild(deleteTodo);
     todoLi.appendChild(lineBreak1);
-    todoLi.append(`Description: ${newTodo.description || "N/A"}`);
+    todoLi.append(`Description: ${todo.description || "N/A"}`);
     todoLi.appendChild(lineBreak2);
-    todoLi.append(`Priority: ${newTodo.priority}`);
-
+    todoLi.append(`Priority: ${todo.priority}`);
+    todoLi.appendChild(lineBreak3);
+    todoLi.append(`Created at: ${new Date(todo.createdAt).toLocaleString()}`);
     todoList.appendChild(todoLi);
 
-    if (newTodo.completed) showTodoAsCompleted(newTodo);
+    if (todo.completed) showTodoAsCompleted(todo);
+}
+
+appEvents.on("todo:new", (newTodo) => {
+    createTodoLi(newTodo);
+});
+
+appEvents.on("todo:reorder", (sortedTodos) => {
+    const todoLiMap = new Map();
+    for (const todoLiElement of todoList.children) {
+        todoLiMap.set(todoLiElement.dataset.todoId, todoLiElement);
+    }
+    todoList.innerHTML = "";
+    for (const todo of sortedTodos) {
+        const todoLiElement = todoLiMap.get(todo.id);
+        if (todoLiElement) {
+            todoList.appendChild(todoLiElement);
+        } else {
+            createTodoLi(todo);
+        }
+    }
 });
 
 appEvents.on("todo:completed", (todo) => {

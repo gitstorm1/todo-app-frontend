@@ -32,6 +32,8 @@ class Todo {
         todoStorage.saveTodoToLocalStorage(this.#id, this.stringify());
 
         appEvents.emit("todo:completed", this);
+
+        triggerTodosReorder();
     }
 
     undoComplete() {
@@ -41,6 +43,8 @@ class Todo {
         todoStorage.saveTodoToLocalStorage(this.#id, this.stringify());
 
         appEvents.emit("todo:undo-completed", this);
+
+        triggerTodosReorder();
     }
 
     stringify() {
@@ -118,10 +122,30 @@ function loadSavedTodos() {
 
         todosArray.push(todo);
 
-        appEvents.emit("todo:new", todo);
+        //appEvents.emit("todo:new", todo);
     }
 
+    triggerTodosReorder();
+
     appEvents.emit("todo:saved-todos-loaded");
+}
+
+/**
+ * @returns {Todo[]}
+ */
+function getSortedTodos() {
+    return [...todosArray].sort((a, b) => {
+        if (a.completed && !b.completed) return 1;
+        if (!a.completed && b.completed) return -1;
+
+        if (a.priority !== b.priority) return -(a.priority - b.priority);
+
+        return a.createdAt - b.createdAt;
+    });
+}
+
+function triggerTodosReorder() {
+    appEvents.emit("todo:reorder", getSortedTodos());
 }
 
 /**
@@ -139,6 +163,8 @@ function addNewTodo(todoName, todoDescription, todoPriority) {
     todoStorage.saveTodoToLocalStorage(newTodo.id, newTodo.stringify());
 
     appEvents.emit("todo:new", newTodo);
+
+    triggerTodosReorder();
 }
 
 /**
